@@ -1,0 +1,10 @@
+setup:
+1. install sqlexplorer plugin in eclipse (need to install JBoss Tools plugin to do that)
+2. Create hibernate user library with provided jars and add it to build path
+3. New -> Hibernate -> Hibernate Configuration File (cfg.xml) -> Next -> Give a name for configuration file -> Get values from connection -> New -> Select regarding option -> 
+Add jdbc driver for the specific database in plus symbol window's jar list tab -> Add connection properties like database, url && etc -> Test connection -> if ping succeeded next and 
+file is there
+
+(hibernate.cfg.xml : default name for hibernate configuration file, no need to tell hibernate about name of the configuration file if this name is used)
+
+only one session factory per application
