@@ -44,3 +44,30 @@ Surrogate key : no business significant. dedicated to uniquely identify a record
 If a key is a surrogate key, hibernate is able to handle that. @GeneratedValue is used for that. (Insight: hibernate is maintaining a sequence and use that to
 generate value)
 strategy=GenerationType.AUTO : let hibernate to decide the strategy to generate primary key
+
+------------------------------------------------------------------------------------------------
+
+one attribute -> multiple column (Eg: An attribute is an object or an attribute is a collection)
+
+Entity vs Value objects: Entity : needs to be saved in a separate table (UserDetails)
+Value objects: not have meaning itself. depend on another object (Address)
+
+value objects are saved along with entity with separate columns for them : value object needs to be marked as @Embeddable in the class name, @Embedded in the 
+attribute name in another class.
+
+Having multiple value object with same type:
+Exception in thread "main" org.hibernate.MappingException: Repeated column in mapping for entity: org.jeya.dto.UserDetails column: COLUMN_CITY 
+(should be mapped with insert="false" update="false")
+
+Solution: override column name for other attributes
+@AttributeOverride is used. Multiple @AttributeOverride are kept inside @AttributeOverrides
+
+Embedded object as a primary key : annotate that attribute with @EmbeddedId
+
+**************************************************************************************************
+
+Collection of object as attribute:
+
+separate table of collection and associated with user id
+
+@ElementCollection is annotated above the attribute with collection type

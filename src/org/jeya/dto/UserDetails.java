@@ -2,8 +2,11 @@ package org.jeya.dto;
 
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +22,7 @@ import javax.persistence.Transient;
 @Table(name = "TABLE_USER_DETAILS_BY_TABLE")
 public class UserDetails {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "COLUMN_USER_ID")
 	private int userId;
 
@@ -29,8 +32,21 @@ public class UserDetails {
 
 	@Temporal(value = TemporalType.DATE)
 	private Date joinedDate;
+
+	@Embedded
+	@AttributeOverrides({
+	@AttributeOverride(name = "street", column = @Column(name="COLUMN_HOME_STREET")),
+	@AttributeOverride(name = "city", column = @Column(name="COLUMN_HOME_CITY")),
+	@AttributeOverride(name = "state", column = @Column(name="COLUMN_HOME_STATE")),
+	@AttributeOverride(name = "pincode", column = @Column(name="COLUMN_HOME_PINCODE"))
+	})
+	private Address homeAddress;
+	
+	@Embedded
+	private Address officeAddress;
+
 	@Transient
-	private String address;
+	private String sAddress;
 	@Lob
 	private String description;
 
@@ -58,12 +74,12 @@ public class UserDetails {
 		this.joinedDate = joinedDate;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getSAddress() {
+		return sAddress;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setSAddress(String address) {
+		this.sAddress = address;
 	}
 
 	public String getDescription() {
@@ -72,5 +88,21 @@ public class UserDetails {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setHomeAddress(Address address) {
+		this.homeAddress = address;
+	}
+
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+	
+	public void setOfficeAddress(Address address) {
+		this.officeAddress = address;
+	}
+
+	public Address getOfficeAddress() {
+		return officeAddress;
 	}
 }

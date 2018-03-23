@@ -27,6 +27,8 @@
         
         <!-- Names the annotated entity class -->
         <mapping class="org.jeya.dto.UserDetails" />
+        <mapping class="org.jeya.dto.UserDetails2" />
+        <mapping class="org.jeya.dto.UserDetails3" />
         
     </session-factory>
 </hibernate-configuration>
