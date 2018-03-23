@@ -1,13 +1,38 @@
 package org.jeya.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.util.Date;
 
-@Entity
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+@Entity(name = "TABLE_USER_DETAILS_BY_ENTITY")
+// or
+@Table(name = "TABLE_USER_DETAILS_BY_TABLE")
 public class UserDetails {
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "COLUMN_USER_ID")
 	private int userId;
+
+	@Column(name = "COLUMN_USER_NAME")
+	@Basic
 	private String userName;
+
+	@Temporal(value = TemporalType.DATE)
+	private Date joinedDate;
+	@Transient
+	private String address;
+	@Lob
+	private String description;
 
 	public int getUserId() {
 		return userId;
@@ -23,5 +48,29 @@ public class UserDetails {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Date getJoinedDate() {
+		return joinedDate;
+	}
+
+	public void setJoinedDate(Date joinedDate) {
+		this.joinedDate = joinedDate;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
