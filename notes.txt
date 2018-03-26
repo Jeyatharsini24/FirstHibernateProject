@@ -87,6 +87,13 @@ in proxy class when getter is invoked.
 
 One to one mapping:
 one entity inside another entity:
+(Difference between value objects (simple Address) and UserDetails Vs Vehicle and UserDetails: Address has no significant without UserDetails, Vehicle is independent. Separate entity:
+see <mapping class="org.jeya.dto.Vehicle" /> is not available for Address and address is not saved separately)
 
+When there is no @OneToOne annotation in vehicle attribute:
+Exception in thread "main" org.hibernate.MappingException: Could not determine type for: org.jeya.dto.Vehicle, at table: TABLE_USER_DETAILS5_BY_TABLE, for columns:
+[org.hibernate.mapping.Column(vehicle)]
 
+It is looking for a connection between both entities.
+@OneToOne will add extra column in UserDetails table (vehicle_vehicleid)
 ----------------------------------------------------------------------------------------------------------------------- 

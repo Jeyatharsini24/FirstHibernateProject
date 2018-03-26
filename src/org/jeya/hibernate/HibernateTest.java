@@ -13,6 +13,8 @@ import org.jeya.dto.UserDetails;
 import org.jeya.dto.UserDetails2;
 import org.jeya.dto.UserDetails3;
 import org.jeya.dto.UserDetails4;
+import org.jeya.dto.UserDetails5;
+import org.jeya.dto.Vehicle;
 
 public class HibernateTest {
 	public static void main(String[] args) {
@@ -23,6 +25,22 @@ public class HibernateTest {
 		//objectAsPrimaryKey(sessionFactory);
 		//oneToManyMappingCollection(sessionFactory);
 		//lazyLoadingEagerLoading(sessionFactory);
+		oneToOneMapping(sessionFactory);
+	}
+
+	private static void oneToOneMapping(SessionFactory sessionFactory) {
+		UserDetails5 userDetails51 = new UserDetails5();
+		userDetails51.setUserName("User 51");
+		Vehicle vehicle = new Vehicle();
+		vehicle.setVehicleName("User 51 Car");
+		userDetails51.setVehicle(vehicle);
+		
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(userDetails51);
+		session.save(vehicle);
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void lazyLoadingEagerLoading(SessionFactory sessionFactory) {
