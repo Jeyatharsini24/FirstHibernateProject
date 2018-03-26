@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "TABLE_USER_DETAILS3_BY_TABLE")
+@Table(name = "USER_DETAILS3")
 public class UserDetails3 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

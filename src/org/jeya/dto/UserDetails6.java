@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TABLE_USER_DETAILS6_BY_TABLE")
+@Table(name = "USER_DETAILS6")
 public class UserDetails6 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +21,7 @@ public class UserDetails6 {
 
 	private String userName;
 	@OneToMany
-	@JoinTable(name = "USER_VEHICLES", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "VEHICLE_ID"))
+	@JoinTable(name = "USER6_VEHICLES", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "VEHICLE_ID"))
 	private Collection<Vehicle> vehicle = new ArrayList<>();
 
 	public int getUserId() {

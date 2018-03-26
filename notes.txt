@@ -102,7 +102,11 @@ It is looking for a connection between both entities.
 One to many mapping:
 UserDetails with collection of vehicle. Create separate table to have  the relationship between vehicle and user details
 @OneToMany annotation is used
-
+-----------------------------------------------------------------------------------------------------------------------
+object on the many side of the relationship has the reference to the other object.
+One to many: having column for vehicle in UserDetails (multiple rows), having column for user in Vehicle is possible.
+to do that we need to have bidirectional relationship (oneToMany and manyToOne) in related places and need to set data both way (setUserDetails and setVehicle)
+----------------------------------------------------------------------------------------------------------------------- 
 ***********************************************************************************************************
 Many to one mapping:
 Vehicle can have user details, Many vehicle will have one user
@@ -112,4 +116,3 @@ Exception in thread "main" org.hibernate.MappingException: Could not determine t
 [org.hibernate.mapping.Column(userDetails)]
 
 userdetails_userid column is added to vehicle table
------------------------------------------------------------------------------------------------------------------------ 

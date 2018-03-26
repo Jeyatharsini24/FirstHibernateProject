@@ -14,7 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TABLE_USER_DETAILS4_BY_TABLE")
+@Table(name = "USER_DETAILS4")
 public class UserDetails4 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

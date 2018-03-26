@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TABLE_USER_DETAILS2_BY_TABLE")
+@Table(name = "USER_DETAILS2")
 public class UserDetails2 {
 	@EmbeddedId
 	private LoginName userId; // primary key
