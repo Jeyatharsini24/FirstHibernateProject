@@ -17,9 +17,11 @@ import org.jeya.dto.UserDetails5;
 import org.jeya.dto.UserDetails6;
 import org.jeya.dto.UserDetails7;
 import org.jeya.dto.UserDetails8;
+import org.jeya.dto.UserDetails9;
 import org.jeya.dto.Vehicle;
 import org.jeya.dto.Vehicle2;
 import org.jeya.dto.Vehicle3;
+import org.jeya.dto.Vehicle4;
 
 public class HibernateTest {
 	public static void main(String[] args) {
@@ -33,7 +35,39 @@ public class HibernateTest {
 		//oneToOneMapping(sessionFactory);
 		//oneToManyMappingInSeparateTableByDefault(sessionFactory);
 		//manyToOneMapping(sessionFactory);
-		oneToManyMappingAppendColumn(sessionFactory);
+		//oneToManyMappingAppendColumn(sessionFactory);
+		manyToManyMapping(sessionFactory);
+	}
+
+	private static void manyToManyMapping(SessionFactory sessionFactory) {
+		UserDetails9 userDetails91 = new UserDetails9();
+		userDetails91.setUserName("User 91");
+		UserDetails9 userDetails92 = new UserDetails9();
+		userDetails92.setUserName("User 92");
+		
+		Vehicle4 vehicle1 = new Vehicle4();
+		vehicle1.setVehicleName("User 91 Car1");
+		Vehicle4 vehicle2 = new Vehicle4();
+		vehicle2.setVehicleName("User 91 Car2");
+		
+		userDetails92.getVehicle().add(vehicle2);
+		vehicle2.getUserList().add(userDetails92);
+		
+		vehicle1.getUserList().add(userDetails91);
+		userDetails91.getVehicle().add(vehicle1);
+		
+		
+		vehicle2.getUserList().add(userDetails91);
+		userDetails91.getVehicle().add(vehicle2);
+		
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(userDetails91);
+		session.save(userDetails92);
+		session.save(vehicle1);
+		session.save(vehicle2);
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void oneToManyMappingAppendColumn(SessionFactory sessionFactory) {

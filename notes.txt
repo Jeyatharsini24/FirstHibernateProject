@@ -116,3 +116,10 @@ Exception in thread "main" org.hibernate.MappingException: Could not determine t
 [org.hibernate.mapping.Column(userDetails)]
 
 userdetails_userid column is added to vehicle table
+***********************************************************************************************************
+Many to many mapping:
+There should be separate table for mapping
+Rented vehicle for users
+@ManyToMany should be in both places with mappedBy in one place. if there is no mappedBy, two tables will be
+created with redundant data
+***********************************************************************************************************
