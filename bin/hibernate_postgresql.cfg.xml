@@ -31,6 +31,7 @@
         <mapping class="org.jeya.dto.UserDetails3" />
         <mapping class="org.jeya.dto.UserDetails4" />
         <mapping class="org.jeya.dto.UserDetails5" />
+        <mapping class="org.jeya.dto.UserDetails6" />
         <mapping class="org.jeya.dto.Vehicle" />
         
     </session-factory>

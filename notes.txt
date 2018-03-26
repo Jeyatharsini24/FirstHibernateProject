@@ -96,4 +96,10 @@ Exception in thread "main" org.hibernate.MappingException: Could not determine t
 
 It is looking for a connection between both entities.
 @OneToOne will add extra column in UserDetails table (vehicle_vehicleid)
+
+*********************************************************************************************************
+
+One to many mapping:
+UserDetails with collection of vehicle. Create separate table to have  the relationship between vehicle and user details
+@OneToMany annotation is used
 ----------------------------------------------------------------------------------------------------------------------- 
