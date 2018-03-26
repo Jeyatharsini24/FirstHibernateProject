@@ -15,7 +15,9 @@ import org.jeya.dto.UserDetails3;
 import org.jeya.dto.UserDetails4;
 import org.jeya.dto.UserDetails5;
 import org.jeya.dto.UserDetails6;
+import org.jeya.dto.UserDetails7;
 import org.jeya.dto.Vehicle;
+import org.jeya.dto.Vehicle2;
 
 public class HibernateTest {
 	public static void main(String[] args) {
@@ -27,7 +29,29 @@ public class HibernateTest {
 		//oneToManyMappingCollection(sessionFactory);
 		//lazyLoadingEagerLoading(sessionFactory);
 		//oneToOneMapping(sessionFactory);
-		oneToManyMapping(sessionFactory);
+		//oneToManyMapping(sessionFactory);
+		manyToOneMapping(sessionFactory);
+	}
+
+	private static void manyToOneMapping(SessionFactory sessionFactory) {
+		UserDetails7 userDetails71 = new UserDetails7();
+		userDetails71.setUserName("User 71");
+
+		Vehicle2 vehicle1 = new Vehicle2();
+		vehicle1.setVehicleName("User 71 Car1");
+		vehicle1.setUserDetails(userDetails71);
+
+		Vehicle2 vehicle2 = new Vehicle2();
+		vehicle2.setVehicleName("User 71 Car2");
+		vehicle2.setUserDetails(userDetails71);
+
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(userDetails71);
+		session.save(vehicle1);
+		session.save(vehicle2);
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void oneToManyMapping(SessionFactory sessionFactory) {

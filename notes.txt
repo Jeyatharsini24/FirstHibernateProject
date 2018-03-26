@@ -102,4 +102,14 @@ It is looking for a connection between both entities.
 One to many mapping:
 UserDetails with collection of vehicle. Create separate table to have  the relationship between vehicle and user details
 @OneToMany annotation is used
+
+***********************************************************************************************************
+Many to one mapping:
+Vehicle can have user details, Many vehicle will have one user
+
+When there is no @ManyToOne annotation in user details attribute:
+Exception in thread "main" org.hibernate.MappingException: Could not determine type for: org.jeya.dto.UserDetails7, at table: Vehicle2, for columns: 
+[org.hibernate.mapping.Column(userDetails)]
+
+userdetails_userid column is added to vehicle table
 ----------------------------------------------------------------------------------------------------------------------- 
