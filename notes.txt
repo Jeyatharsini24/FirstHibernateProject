@@ -83,4 +83,10 @@ Lazy initialization - When userDetails.getListOfAddresses is invoked only addres
 
 when getter is invoked data is load. It is done by a proxy class. subclass of user details is created as proxy and second level of database operation is done
 in proxy class when getter is invoked.
+********************************************************************************************************
+
+One to one mapping:
+one entity inside another entity:
+
+
 ----------------------------------------------------------------------------------------------------------------------- 
