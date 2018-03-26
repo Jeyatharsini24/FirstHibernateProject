@@ -71,3 +71,8 @@ Collection of object as attribute:
 separate table of collection and associated with user id
 
 @ElementCollection is annotated above the attribute with collection type
+
+@JoinTable(name="USER_ADDRESS",
+			joinColumns=@JoinColumn(name="USER_ID")) to have different name for joint table and column to join
+
+@CollectionId is used to have primary key for joint table for collection : hibernate specific annotation: unavailable in JPA 
