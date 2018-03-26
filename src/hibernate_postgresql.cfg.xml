@@ -29,6 +29,7 @@
         <mapping class="org.jeya.dto.UserDetails" />
         <mapping class="org.jeya.dto.UserDetails2" />
         <mapping class="org.jeya.dto.UserDetails3" />
+        <mapping class="org.jeya.dto.UserDetails4" />
         
     </session-factory>
 </hibernate-configuration>

@@ -75,4 +75,12 @@ separate table of collection and associated with user id
 @JoinTable(name="USER_ADDRESS",
 			joinColumns=@JoinColumn(name="USER_ID")) to have different name for joint table and column to join
 
-@CollectionId is used to have primary key for joint table for collection : hibernate specific annotation: unavailable in JPA 
+@CollectionId is used to have primary key for joint table for collection : hibernate specific annotation: unavailable in JPA
+
+Eager initialization vs Lazy initialization:
+Eager initialization - When Session.get() all the addresses will be fetched for user details.
+Lazy initialization - When userDetails.getListOfAddresses is invoked only addresses will be loaded. (default behavior)
+
+when getter is invoked data is load. It is done by a proxy class. subclass of user details is created as proxy and second level of database operation is done
+in proxy class when getter is invoked.
+----------------------------------------------------------------------------------------------------------------------- 
