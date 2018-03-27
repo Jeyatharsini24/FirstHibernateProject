@@ -9,8 +9,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.jeya.dto.Address;
 import org.jeya.dto.FourWheeler;
+import org.jeya.dto.FourWheeler2;
 import org.jeya.dto.LoginName;
 import org.jeya.dto.TwoWheeler;
+import org.jeya.dto.TwoWheeler2;
 import org.jeya.dto.UserDetails;
 import org.jeya.dto.UserDetails10;
 import org.jeya.dto.UserDetails2;
@@ -27,6 +29,7 @@ import org.jeya.dto.Vehicle3;
 import org.jeya.dto.Vehicle4;
 import org.jeya.dto.Vehicle5;
 import org.jeya.dto.Vehicle6;
+import org.jeya.dto.Vehicle7;
 
 public class HibernateTest {
 	public static void main(String[] args) {
@@ -43,10 +46,33 @@ public class HibernateTest {
 		//oneToManyMappingAppendColumn(sessionFactory);
 		//manyToManyMapping(sessionFactory);
 		//cascadeType(sessionFactory);
-		handleInheritance(sessionFactory);
+		//handleInheritanceBySingleTableStrategy(sessionFactory);
+		handleInheritanceByTablePerClassStrategy(sessionFactory);
 	}
 
-	private static void handleInheritance(SessionFactory sessionFactory) {
+	private static void handleInheritanceByTablePerClassStrategy(SessionFactory sessionFactory) {
+		Vehicle7 vehicle = new Vehicle7();
+		vehicle.setVehicleName("Car");
+		
+		TwoWheeler2 vehicle61 = new TwoWheeler2();
+		vehicle61.setVehicleName("Bike");
+		vehicle61.setSteeringHandle("Bike Steering Handle");
+		
+		FourWheeler2 vehicle62 = new FourWheeler2();
+		vehicle62.setVehicleName("Porsche");
+		vehicle62.setSteeringWheel("Porsche Steering Wheel");
+		
+		
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(vehicle);
+		session.save(vehicle61);
+		session.save(vehicle62);
+		session.getTransaction().commit();
+		session.close();
+	}
+
+	private static void handleInheritanceBySingleTableStrategy(SessionFactory sessionFactory) {
 		Vehicle6 vehicle = new Vehicle6();
 		vehicle.setVehicleName("Car");
 		

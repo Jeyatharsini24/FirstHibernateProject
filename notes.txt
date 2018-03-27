@@ -167,5 +167,12 @@ dtype : to identify class of object - discriminator
 
 override the discriminator value : @DiscriminatorValue("BIKE")
 
+------------------------------------------------------------------------------------------------------------------
 
+Table per class strategy:
+
+table per class and attributes from parent class are inherited and they are separate columns in subclass table
+
+advantage:
+normalized form
 ------------------------------------------------------------------------------------------------------------------
