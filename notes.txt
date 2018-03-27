@@ -196,3 +196,7 @@ Before session.save: Transient object
 after session.save : become persistent object
 after session.close : become detached object
 
+-------------------------------------------------------------------------------------------------------------------
+create: transient -> persistent -> detached
+read: persistent(by default) -> detached
+delete : transient <- persistent -> detached

@@ -54,7 +54,18 @@ public class HibernateTest {
 		//handleInheritanceByTablePerClassStrategy(sessionFactory);
 		//handleInheritanceByJoinedStrategy(sessionFactory);
 		//handleCRUDOperations(sessionFactory);
-		updateAfterSave(sessionFactory);
+		//updateAfterSave(sessionFactory);
+		updateAfterRetrive(sessionFactory);
+	}
+
+	private static void updateAfterRetrive(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		UserDetails11 userDetails = session.get(UserDetails11.class, 2);
+		userDetails.setUserName("Updated after retrieval");
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void updateAfterSave(SessionFactory sessionFactory) {
