@@ -53,7 +53,23 @@ public class HibernateTest {
 		//handleInheritanceBySingleTableStrategy(sessionFactory);
 		//handleInheritanceByTablePerClassStrategy(sessionFactory);
 		//handleInheritanceByJoinedStrategy(sessionFactory);
-		handleCRUDOperations(sessionFactory);
+		//handleCRUDOperations(sessionFactory);
+		updateAfterSave(sessionFactory);
+	}
+
+	private static void updateAfterSave(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		UserDetails11 userDetails = new UserDetails11();
+		userDetails.setUserName("New user");
+		session.save(userDetails);
+		userDetails.setUserName("U1: Updated user");
+		userDetails.setUserName("U2: Updated user");
+		userDetails.setUserName("U3: Updated user");
+		session.getTransaction().commit();
+		userDetails.setUserName("U4: Updated user");
+		session.close();
+		userDetails.setUserName("U5: Updated user");
 	}
 
 	private static void handleCRUDOperations(SessionFactory sessionFactory) {

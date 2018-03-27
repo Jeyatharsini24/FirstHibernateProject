@@ -186,3 +186,13 @@ select * from Vehicle8 join FourWheeler3 on Vehicle8.vehicleid = FourWheeler3.ve
 
 advantage:
 more normalized form than table per class strategy
+
+------------------------------------------------------------------------------------------------------------------
+Not saved object: Transient
+after a session.save(user); changes will be taken as update statement before commit the transaction.
+Once an object is provided to Hibernate to save, it will track the changes for that object until the transaction is committed.
+
+Before session.save: Transient object
+after session.save : become persistent object
+after session.close : become detached object
+
