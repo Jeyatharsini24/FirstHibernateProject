@@ -152,3 +152,20 @@ persist method should be used with cascade
 cascade=CascadeType.ALL : to perform operation in cascade for all detach, persist, merge, refresh and move operation
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Inheritance:
+
+problem in persisting only subclasses as entity: 
+
+1. (can't use polymorphism : Vehicle v - dynamically change vehicle)
+2. auto data fill is not in both table
+
+Hibernate implements a strategy by default known as Single table strategy: dtype, vehicleid, vehiclename, steeringhandle, steeringwheel (saved all three of vehicle, two wheeler 
+and three wheeler are saved in single table.
+
+dtype : to identify class of object - discriminator
+
+override the discriminator value : @DiscriminatorValue("BIKE")
+
+
+------------------------------------------------------------------------------------------------------------------
