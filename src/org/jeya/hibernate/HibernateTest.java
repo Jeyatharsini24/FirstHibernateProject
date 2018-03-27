@@ -17,6 +17,7 @@ import org.jeya.dto.TwoWheeler2;
 import org.jeya.dto.TwoWheeler3;
 import org.jeya.dto.UserDetails;
 import org.jeya.dto.UserDetails10;
+import org.jeya.dto.UserDetails11;
 import org.jeya.dto.UserDetails2;
 import org.jeya.dto.UserDetails3;
 import org.jeya.dto.UserDetails4;
@@ -51,7 +52,56 @@ public class HibernateTest {
 		//cascadeType(sessionFactory);
 		//handleInheritanceBySingleTableStrategy(sessionFactory);
 		//handleInheritanceByTablePerClassStrategy(sessionFactory);
-		handleInheritanceByJoinedStrategy(sessionFactory);
+		//handleInheritanceByJoinedStrategy(sessionFactory);
+		handleCRUDOperations(sessionFactory);
+	}
+
+	private static void handleCRUDOperations(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		read(sessionFactory);
+		update(sessionFactory);
+		delete(sessionFactory);
+	}
+
+	private static void update(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		UserDetails11 userDetails = session.get(UserDetails11.class, 5);
+		userDetails.setUserName("Updated user");
+		session.update(userDetails);
+		session.getTransaction().commit();
+		session.close();
+	}
+
+	private static void delete(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		UserDetails11 userDetails = session.get(UserDetails11.class, 6);
+		session.delete(userDetails);
+		session.getTransaction().commit();
+		session.close();
+	}
+
+	private static void read(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		UserDetails11 userDetails = session.get(UserDetails11.class, 6);
+		session.getTransaction().commit();
+		session.close();
+
+		System.out.println("User name pulled : " + userDetails.getUserName());
+	}
+
+	private static void create(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		for (int i = 0; i < 10; i++) {
+			UserDetails11 userDetails = new UserDetails11();
+			userDetails.setUserName("User " + i);
+			session.save(userDetails);
+		}
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void handleInheritanceByJoinedStrategy(SessionFactory sessionFactory) {

@@ -23,6 +23,7 @@
         <property name="show_sql">true</property>
         
         <!-- Drop and re-create the database schema on startup -->
+        <!--<property name="hbm2ddl.auto">update</property>  -->
         <property name="hbm2ddl.auto">create</property>
         
         <!-- Names the annotated entity class -->
@@ -36,6 +37,7 @@
         <mapping class="org.jeya.dto.UserDetails8" />
         <mapping class="org.jeya.dto.UserDetails9" />
         <mapping class="org.jeya.dto.UserDetails10" />
+        <mapping class="org.jeya.dto.UserDetails11" />
         <mapping class="org.jeya.dto.Vehicle" />
         <mapping class="org.jeya.dto.Vehicle2" />
         <mapping class="org.jeya.dto.Vehicle3" />
