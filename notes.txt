@@ -123,3 +123,32 @@ Rented vehicle for users
 @ManyToMany should be in both places with mappedBy in one place. if there is no mappedBy, two tables will be
 created with redundant data
 ***********************************************************************************************************
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Many to one mapping for Vehicle to user details. If there is no user for a vehicle. Hibernate throws an exception. need to suppress this exception.
+@ManyToOne
+@JoinColumn(name="USERID")
+@NotFound(action=NotFoundAction.IGNORE) // if user details is not found just ignore it
+private UserDetails8 userDetails;
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Hibernate maintains semantic in order to maintain a collection
+
+Eg: Bag semantic, Bag semantic with ID, List semantic(List or ArrayList)
+Set semantic (Set), Map semantic (Map)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+A user has 10 vehicles. Save them and delete them. need to do the create, update, delete.
+
+Error during managed flush [org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: org.jeya.dto.Vehicle5]:
+when try to save without cascade=CascadeType.PERSIST
+
+session.save(userDetails10); with cascade : same exception as above
+
+persist method should be used with cascade
+
+cascade=CascadeType.ALL : to perform operation in cascade for all detach, persist, merge, refresh and move operation
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

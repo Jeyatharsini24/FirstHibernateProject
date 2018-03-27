@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import org.jeya.dto.Address;
 import org.jeya.dto.LoginName;
 import org.jeya.dto.UserDetails;
+import org.jeya.dto.UserDetails10;
 import org.jeya.dto.UserDetails2;
 import org.jeya.dto.UserDetails3;
 import org.jeya.dto.UserDetails4;
@@ -22,6 +23,7 @@ import org.jeya.dto.Vehicle;
 import org.jeya.dto.Vehicle2;
 import org.jeya.dto.Vehicle3;
 import org.jeya.dto.Vehicle4;
+import org.jeya.dto.Vehicle5;
 
 public class HibernateTest {
 	public static void main(String[] args) {
@@ -36,7 +38,28 @@ public class HibernateTest {
 		//oneToManyMappingInSeparateTableByDefault(sessionFactory);
 		//manyToOneMapping(sessionFactory);
 		//oneToManyMappingAppendColumn(sessionFactory);
-		manyToManyMapping(sessionFactory);
+		//manyToManyMapping(sessionFactory);
+		cascadeType(sessionFactory);
+	}
+
+	private static void cascadeType(SessionFactory sessionFactory) {
+		UserDetails10 userDetails10 = new UserDetails10();
+		userDetails10.setUserName("User 10");
+		
+		Vehicle5 vehicle51 = new Vehicle5();
+		vehicle51.setVehicleName("User 10 Car1");
+		
+		Vehicle5 vehicle52 = new Vehicle5();
+		vehicle52.setVehicleName("User 10 Car2");
+		
+		userDetails10.getVehicle().add(vehicle51);
+		userDetails10.getVehicle().add(vehicle52);
+		
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.persist(userDetails10);
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void manyToManyMapping(SessionFactory sessionFactory) {

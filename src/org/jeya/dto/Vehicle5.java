@@ -3,24 +3,15 @@ package org.jeya.dto;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 @Entity
-@Table(name = "Vehicle3")
-public class Vehicle3 {
+@Table(name = "VEHICLE5")
+public class Vehicle5 {
 	@Id
 	@GeneratedValue
 	private int vehicleId;
 	private String vehicleName;
-	@ManyToOne
-	@JoinColumn(name="USERID")
-	@NotFound(action=NotFoundAction.IGNORE)
-	private UserDetails8 userDetails;
 
 	public int getVehicleId() {
 		return vehicleId;
@@ -36,13 +27,5 @@ public class Vehicle3 {
 
 	public void setVehicleName(String vehicleName) {
 		this.vehicleName = vehicleName;
-	}
-
-	public UserDetails8 getUserDetails() {
-		return userDetails;
-	}
-
-	public void setUserDetails(UserDetails8 userDetails) {
-		this.userDetails = userDetails;
 	}
 }

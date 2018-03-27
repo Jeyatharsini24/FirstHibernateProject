@@ -35,9 +35,11 @@
         <mapping class="org.jeya.dto.UserDetails7" />
         <mapping class="org.jeya.dto.UserDetails8" />
         <mapping class="org.jeya.dto.UserDetails9" />
+        <mapping class="org.jeya.dto.UserDetails10" />
         <mapping class="org.jeya.dto.Vehicle" />
         <mapping class="org.jeya.dto.Vehicle2" />
         <mapping class="org.jeya.dto.Vehicle3" />
         <mapping class="org.jeya.dto.Vehicle4" />
+        <mapping class="org.jeya.dto.Vehicle5" />
     </session-factory>
 </hibernate-configuration>
