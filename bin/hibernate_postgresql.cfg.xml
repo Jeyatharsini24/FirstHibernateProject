@@ -43,9 +43,12 @@
         <mapping class="org.jeya.dto.Vehicle5" />
         <mapping class="org.jeya.dto.Vehicle6" />
         <mapping class="org.jeya.dto.Vehicle7" />
+        <mapping class="org.jeya.dto.Vehicle8" />
         <mapping class="org.jeya.dto.TwoWheeler" />
         <mapping class="org.jeya.dto.FourWheeler" />
        	<mapping class="org.jeya.dto.TwoWheeler2" />
         <mapping class="org.jeya.dto.FourWheeler2" />
+        <mapping class="org.jeya.dto.TwoWheeler3" />
+        <mapping class="org.jeya.dto.FourWheeler3" />
     </session-factory>
 </hibernate-configuration>

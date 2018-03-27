@@ -175,4 +175,14 @@ table per class and attributes from parent class are inherited and they are sepa
 
 advantage:
 normalized form
+
+Disadvantage:
+redundant columns in each subclasses.
 ------------------------------------------------------------------------------------------------------------------
+Joined strategy:
+
+Attributes related with super class will be saved in super class table and others will be saved in sub class table. Query to get entire subclass record:
+select * from Vehicle8 join FourWheeler3 on Vehicle8.vehicleid = FourWheeler3.vehicleid
+
+advantage:
+more normalized form than table per class strategy
