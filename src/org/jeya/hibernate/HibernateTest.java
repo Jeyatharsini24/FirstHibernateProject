@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -60,22 +61,108 @@ public class HibernateTest {
 		//updateAfterRetrive(sessionFactory);
 		//detachToPersistent(sessionFactory);
 		hQLAndQueryObject(sessionFactory);
+		//pagination(sessionFactory);
+	}
+
+	private static void pagination(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from UserDetails11");
+		query.setFirstResult(5); // result's offset will be taken from 6th (0, 1, 2, 3, 4, 5)
+		query.setMaxResults(4); // number of results is 4
+		List<UserDetails11> userDetails = (List<UserDetails11>)query.list();
+		session.getTransaction().commit();
+		session.close();
+		for(UserDetails11 u : userDetails)
+		{
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
 	}
 
 	private static void hQLAndQueryObject(SessionFactory sessionFactory) {
 		create(sessionFactory);
+		//readAllDataFromATable(sessionFactory);
+		//System.out.println("******************************************************");
+		//readDataFromATableWithCondition(sessionFactory);
+		//System.out.println("******************************************************");
+		//readOnlyOneColumnFromATable(sessionFactory);
+		//System.out.println("******************************************************");
+		//readMoreThanOneColumnFromATable(sessionFactory); // TODO
+		//System.out.println("******************************************************");
+		//readMoreThanOneColumnFromATableWithMap(sessionFactory); // TODO
+		//System.out.println("******************************************************");
+		readMaxOfAColumn(sessionFactory);
+	}
+
+	private static void readMaxOfAColumn(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select max(userId) from UserDetails11");
+		List maxId = query.list();
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("Max user id : " + maxId.get(0));
+	}
+
+	private static void readMoreThanOneColumnFromATableWithMap(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select new map(userId, userName) from UserDetails11");
+		List<Map<String, String>> userIdsAndNames = (List<Map<String, String>>) query.list();
+		session.getTransaction().commit();
+		session.close();
+
+		for (int i = 0; i < userIdsAndNames.size(); i++) {
+			Map<String, String> entry = userIdsAndNames.get(i);
+			System.out.println(entry.get(i));
+		}
+	}
+
+	private static void readMoreThanOneColumnFromATable(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select userId, userName from UserDetails11");
+		List<List<String>> userIdsAndNames = (List<List<String>>) query.list();
+		session.getTransaction().commit();
+		session.close();
+
+		for (int i = 0; i < userIdsAndNames.size(); i++) {
+			List<String> entry = userIdsAndNames.get(i);
+		}
+	}
+
+	private static void readOnlyOneColumnFromATable(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select userName from UserDetails11");
+		List<String> userNames = (List<String>) query.list();
+		session.getTransaction().commit();
+		session.close();
+
+		for (String name : userNames) {
+			System.out.println("User name : " + name);
+		}
+	}
+
+	private static void readDataFromATableWithCondition(SessionFactory sessionFactory) {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from UserDetails11 where userId > 5");
-		List userDetails = query.list();
+		List<UserDetails11> userDetailsSub = (List<UserDetails11>) (query.list());
 		session.getTransaction().commit();
 		session.close();
-		System.out.println("Size of list result: " + userDetails.size());
-		
-		session = sessionFactory.openSession();
+
+		for (UserDetails11 u : userDetailsSub) {
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
+	}
+
+	private static void readAllDataFromATable(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		query = session.createQuery("from UserDetails11");
-		userDetails = query.list();
+		Query query = session.createQuery("from UserDetails11");
+		List userDetails = query.list();
 		session.getTransaction().commit();
 		session.close();
 		System.out.println("Size of list result: " + userDetails.size());
