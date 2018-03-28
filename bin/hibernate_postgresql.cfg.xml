@@ -38,6 +38,7 @@
         <mapping class="org.jeya.dto.UserDetails9" />
         <mapping class="org.jeya.dto.UserDetails10" />
         <mapping class="org.jeya.dto.UserDetails11" />
+        <mapping class="org.jeya.dto.UserDetails12" />
         <mapping class="org.jeya.dto.Vehicle" />
         <mapping class="org.jeya.dto.Vehicle2" />
         <mapping class="org.jeya.dto.Vehicle3" />

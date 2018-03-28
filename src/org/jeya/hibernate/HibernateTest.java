@@ -21,6 +21,7 @@ import org.jeya.dto.TwoWheeler3;
 import org.jeya.dto.UserDetails;
 import org.jeya.dto.UserDetails10;
 import org.jeya.dto.UserDetails11;
+import org.jeya.dto.UserDetails12;
 import org.jeya.dto.UserDetails2;
 import org.jeya.dto.UserDetails3;
 import org.jeya.dto.UserDetails4;
@@ -64,7 +65,52 @@ public class HibernateTest {
 		//pagination(sessionFactory);
 		//sqlInjection(sessionFactory);
 		//sqlInjectionSolutionByPositionalPlaceHolderSubstitution(sessionFactory);
-		sqlInjectionSolutionByNamePlaceHolderSubstitution(sessionFactory);
+		//sqlInjectionSolutionByNamePlaceHolderSubstitution(sessionFactory);
+		//namedQuery(sessionFactory);
+		namedNativeQuery(sessionFactory);
+	}
+	
+	private static void namedNativeQuery(SessionFactory sessionFactory) {
+		create12(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		// Query query = session.getNamedNativeQuery("User_Details12.byName");
+		Query query = session.getNamedQuery("User_Details12.byName");
+		query.setString(0, "User 6");
+		List<UserDetails12> userDetails = (List<UserDetails12>) query.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails12 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
+	}
+
+	private static void namedQuery(SessionFactory sessionFactory) {
+		create12(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Query query = session.getNamedQuery("UserDetails12.byId");
+		query.setInteger(0, 6);
+		List<UserDetails12> userDetails = (List<UserDetails12>) query.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails12 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
+	}
+
+	private static void create12(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		for (int i = 0; i < 10; i++) {
+			UserDetails12 userDetails = new UserDetails12();
+			userDetails.setUserName("User " + (i + 1));
+			session.save(userDetails);
+		}
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void sqlInjectionSolutionByNamePlaceHolderSubstitution(SessionFactory sessionFactory) {

@@ -210,3 +210,9 @@ HQL : Hibernate Query Language
 
 -instead for table names, class names are used
 -instead for column names, property names are used
+
+Named queries : to identify query easy and modify
+@NamedQuery(name = "UserDetails12.byId", query = "from UserDetails12 where userId = ?") in Entity and get as namedQuery from session (HQL)
+
+Having SQL as named query: @NamedNativeQuery
+===================================================================================================================
