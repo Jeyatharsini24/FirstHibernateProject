@@ -3,10 +3,12 @@ package org.jeya.hibernate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.jeya.dto.Address;
 import org.jeya.dto.FourWheeler;
 import org.jeya.dto.FourWheeler2;
@@ -56,7 +58,27 @@ public class HibernateTest {
 		//handleCRUDOperations(sessionFactory);
 		//updateAfterSave(sessionFactory);
 		//updateAfterRetrive(sessionFactory);
-		detachToPersistent(sessionFactory);
+		//detachToPersistent(sessionFactory);
+		hQLAndQueryObject(sessionFactory);
+	}
+
+	private static void hQLAndQueryObject(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from UserDetails11 where userId > 5");
+		List userDetails = query.list();
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("Size of list result: " + userDetails.size());
+		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		query = session.createQuery("from UserDetails11");
+		userDetails = query.list();
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("Size of list result: " + userDetails.size());
 	}
 
 	private static void detachToPersistent(SessionFactory sessionFactory) {
@@ -142,7 +164,7 @@ public class HibernateTest {
 		session.beginTransaction();
 		for (int i = 0; i < 10; i++) {
 			UserDetails11 userDetails = new UserDetails11();
-			userDetails.setUserName("User " + i);
+			userDetails.setUserName("User " + (i + 1));
 			session.save(userDetails);
 		}
 		session.getTransaction().commit();

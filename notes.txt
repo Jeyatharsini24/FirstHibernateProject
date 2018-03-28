@@ -203,3 +203,10 @@ delete : transient <- persistent -> detached
 update : detached object + (user input) -> persistent (even though no changes in data, it will invoke update query: hibernate doesn't know whether there is a change or not since update is from
 another session: if update call is from same session with no changes, will not invoked the call)
 (we can configure hibernate using @org.hibernate.annotations.Entity(selectBeforeUpdate=true) so that it can invoke update query, only if there are changes available to be saved)
+
+===================================================================================================================
+
+HQL : Hibernate Query Language
+
+-instead for table names, class names are used
+-instead for column names, property names are used
