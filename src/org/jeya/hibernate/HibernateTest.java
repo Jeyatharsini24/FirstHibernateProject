@@ -60,8 +60,59 @@ public class HibernateTest {
 		//updateAfterSave(sessionFactory);
 		//updateAfterRetrive(sessionFactory);
 		//detachToPersistent(sessionFactory);
-		hQLAndQueryObject(sessionFactory);
+		//hQLAndQueryObject(sessionFactory);
 		//pagination(sessionFactory);
+		//sqlInjection(sessionFactory);
+		//sqlInjectionSolutionByPositionalPlaceHolderSubstitution(sessionFactory);
+		sqlInjectionSolutionByNamePlaceHolderSubstitution(sessionFactory);
+	}
+
+	private static void sqlInjectionSolutionByNamePlaceHolderSubstitution(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		String minUserId = "5";
+		String userNameToGet = "User 10";
+		Query query = session.createQuery("from UserDetails11 where userId > :minUserId and userName = :userNameToGet");
+		query.setInteger("minUserId", Integer.parseInt(minUserId));
+		query.setString("userNameToGet", userNameToGet);
+		List<UserDetails11> userDetails = (List<UserDetails11>) query.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
+	}
+
+	private static void sqlInjectionSolutionByPositionalPlaceHolderSubstitution(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		String minUserId = "5";
+		String userName = "User 10";
+		Query query = session.createQuery("from UserDetails11 where userId > ? and userName = ?");
+		query.setInteger(0, Integer.parseInt(minUserId));
+		query.setString(1, userName);
+		List<UserDetails11> userDetails = (List<UserDetails11>) query.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
+	}
+
+	private static void sqlInjection(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		String minUserId = "5 or 1 = 1";
+		Query query = session.createQuery("from UserDetails11 where userId > " + minUserId );
+		List<UserDetails11> userDetails = (List<UserDetails11>) query.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
 	}
 
 	private static void pagination(SessionFactory sessionFactory) {
@@ -92,7 +143,7 @@ public class HibernateTest {
 		//System.out.println("******************************************************");
 		//readMoreThanOneColumnFromATableWithMap(sessionFactory); // TODO
 		//System.out.println("******************************************************");
-		readMaxOfAColumn(sessionFactory);
+		//readMaxOfAColumn(sessionFactory);
 	}
 
 	private static void readMaxOfAColumn(SessionFactory sessionFactory) {
