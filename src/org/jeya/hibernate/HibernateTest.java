@@ -70,18 +70,34 @@ public class HibernateTest {
 		//sqlInjectionSolutionByNamePlaceHolderSubstitution(sessionFactory);
 		//namedQuery(sessionFactory);
 		//namedNativeQuery(sessionFactory);
-		criteriaAPI(sessionFactory);
+		//criteriaAPI(sessionFactory);
+		criteriaAPIOR(sessionFactory);
 	}
 	
+	private static void criteriaAPIOR(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Criteria criteria = session.createCriteria(UserDetails11.class);
+		criteria.add(Restrictions.or(Restrictions.like("userName", "%User 6%"), Restrictions.between("userId", 5, 10)));
+		
+		List<UserDetails11> userDetails = (List<UserDetails11>) criteria.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
+	}
+
 	private static void criteriaAPI(SessionFactory sessionFactory) {
 		create(sessionFactory);
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		
+
 		Criteria criteria = session.createCriteria(UserDetails11.class);
-		criteria.add(Restrictions.eq("userName", "User 6"));
-		
-		Query query = session.createQuery("from UserDetails11 where userId > :minUserId and userName = :userNameToGet");
+		criteria.add(Restrictions.like("userName", "%User 6%")).add(Restrictions.between("userId", 5, 10));// similar to and clause when appending criterias by add
+
 		List<UserDetails11> userDetails = (List<UserDetails11>) criteria.list();
 		session.getTransaction().commit();
 		session.close();
