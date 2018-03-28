@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.jeya.dto.Address;
 import org.jeya.dto.FourWheeler;
@@ -67,9 +69,27 @@ public class HibernateTest {
 		//sqlInjectionSolutionByPositionalPlaceHolderSubstitution(sessionFactory);
 		//sqlInjectionSolutionByNamePlaceHolderSubstitution(sessionFactory);
 		//namedQuery(sessionFactory);
-		namedNativeQuery(sessionFactory);
+		//namedNativeQuery(sessionFactory);
+		criteriaAPI(sessionFactory);
 	}
 	
+	private static void criteriaAPI(SessionFactory sessionFactory) {
+		create(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		Criteria criteria = session.createCriteria(UserDetails11.class);
+		criteria.add(Restrictions.eq("userName", "User 6"));
+		
+		Query query = session.createQuery("from UserDetails11 where userId > :minUserId and userName = :userNameToGet");
+		List<UserDetails11> userDetails = (List<UserDetails11>) criteria.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", User name : " + u.getUserName());
+		}
+	}
+
 	private static void namedNativeQuery(SessionFactory sessionFactory) {
 		create12(sessionFactory);
 		Session session = sessionFactory.openSession();

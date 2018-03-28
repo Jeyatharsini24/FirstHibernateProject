@@ -216,3 +216,14 @@ Named queries : to identify query easy and modify
 
 Having SQL as named query: @NamedNativeQuery
 ===================================================================================================================
+
+Hibernate data retrival:
+
+1. By session.get
+2. By query (HQL)
+3. By criteria API
+
+====================================================================================================================
+
+Criteria is like where clause
+
