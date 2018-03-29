@@ -27,6 +27,7 @@ import org.jeya.dto.UserDetails;
 import org.jeya.dto.UserDetails10;
 import org.jeya.dto.UserDetails11;
 import org.jeya.dto.UserDetails12;
+import org.jeya.dto.UserDetails13;
 import org.jeya.dto.UserDetails2;
 import org.jeya.dto.UserDetails3;
 import org.jeya.dto.UserDetails4;
@@ -77,9 +78,33 @@ public class HibernateTest {
 		//criteriaAPIOR(sessionFactory);
 		//criteriaAPIProjection(sessionFactory);
 		//firstLevelCachingInAction(sessionFactory);
-		firstLevelCachingNotWorking(sessionFactory);
+		//firstLevelCachingNotWorking(sessionFactory);
+		secondLevelCachingInAction(sessionFactory);
 	}
 	
+	private static void secondLevelCachingInAction(SessionFactory sessionFactory) {
+		// there will be one select even after there is a session close
+		// it's able to keep the cache across session using Ehcache
+		create13(sessionFactory);
+
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		UserDetails13 user = session.get(UserDetails13.class, 6);
+
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("User id : " + user.getUserId() + ", user name : " + user.getUserName());
+
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		UserDetails13 user2 = session.get(UserDetails13.class, 6);
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("User id : " + user.getUserId() + ", user name : " + user.getUserName());
+	}
+
 	private static void firstLevelCachingNotWorking(SessionFactory sessionFactory) {
 		// there will be two select query since session is closed
 		// and a new session has been opened
@@ -591,6 +616,18 @@ public class HibernateTest {
 		session.close();
 
 		System.out.println("User name pulled : " + userDetails.getUserName());
+	}
+	
+	private static void create13(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		for (int i = 0; i < 10; i++) {
+			UserDetails13 userDetails = new UserDetails13();
+			userDetails.setUserName("User " + (i + 1));
+			session.save(userDetails);
+		}
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void create(SessionFactory sessionFactory) {

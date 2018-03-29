@@ -246,3 +246,14 @@ second level of caching : needs to be configured
 -across applications
 -across clusters
 
+Second level cache:
+
+caching strategies:
+
+1. CacheConcurrencyStrategy.READ_ONLY : application do only reading operation, not write
+Pull the data, hibernate doesn't worry about data is dirty or clean since application is able to read only
+2. CacheConcurrencyStrategy.READ_WRITE : application do both of read and write operation
+Hibernate keeps track of dirty *** better option
+3. NONSTRICT_READ_WRITE : some cases, not checked for dirty data
+4. TRANSACTIONAL : make sure that cache is on transactional basis
+====================================================================================================================
