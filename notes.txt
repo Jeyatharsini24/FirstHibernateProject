@@ -230,3 +230,19 @@ Criteria is like where clause
 Example : not considered null value and primary key value
 when it is needed to be excluded a property in Example, it can be done by
 	Example example2 = Example.create(exampleUser).excludeProperty("userName");
+	
+====================================================================================================================
+
+Cache in hibernate:
+
+By default first level cache:
+
+1. select again
+2. update without changes
+
+first level of caching in session: not available across session
+second level of caching : needs to be configured
+-across sessions
+-across applications
+-across clusters
+

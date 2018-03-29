@@ -75,9 +75,64 @@ public class HibernateTest {
 		//namedNativeQuery(sessionFactory);
 		//criteriaAPI(sessionFactory);
 		//criteriaAPIOR(sessionFactory);
-		criteriaAPIProjection(sessionFactory);
+		//criteriaAPIProjection(sessionFactory);
+		//firstLevelCachingInAction(sessionFactory);
+		firstLevelCachingNotWorking(sessionFactory);
 	}
 	
+	private static void firstLevelCachingNotWorking(SessionFactory sessionFactory) {
+		// there will be two select query since session is closed
+		// and a new session has been opened
+		create(sessionFactory);
+
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		UserDetails11 user = session.get(UserDetails11.class, 6);
+
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("User id : " + user.getUserId() + ", user name : " + user.getUserName());
+
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		UserDetails11 user2 = session.get(UserDetails11.class, 6);
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("User id : " + user.getUserId() + ", user name : " + user.getUserName());
+	}
+
+	private static void firstLevelCachingInAction(SessionFactory sessionFactory) {
+		create(sessionFactory);
+
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		UserDetails11 user = session.get(UserDetails11.class, 6);
+		UserDetails11 user2 = session.get(UserDetails11.class, 6);
+		// there will be only one select query: because there is no change in
+		// between both get
+
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("User id : " + user.getUserId() + ", user name : " + user.getUserName());
+
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		user = session.get(UserDetails11.class, 6);
+		user.setUserName("Updated user");
+		user2 = session.get(UserDetails11.class, 6);
+		// there will be one select and one update
+		// this time no select again because, setUserName value will be in cache
+		// so no need to pull up from database
+
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("User id : " + user.getUserId() + ", user name : " + user.getUserName());
+	}
+
 	private static void criteriaAPIProjection(SessionFactory sessionFactory) {
 		// eg: retrieve max id in a table by criteria API
 		create(sessionFactory);
