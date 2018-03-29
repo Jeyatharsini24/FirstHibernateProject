@@ -28,6 +28,7 @@ import org.jeya.dto.UserDetails10;
 import org.jeya.dto.UserDetails11;
 import org.jeya.dto.UserDetails12;
 import org.jeya.dto.UserDetails13;
+import org.jeya.dto.UserDetails14;
 import org.jeya.dto.UserDetails2;
 import org.jeya.dto.UserDetails3;
 import org.jeya.dto.UserDetails4;
@@ -79,9 +80,35 @@ public class HibernateTest {
 		//criteriaAPIProjection(sessionFactory);
 		//firstLevelCachingInAction(sessionFactory);
 		//firstLevelCachingNotWorking(sessionFactory);
-		secondLevelCachingInAction(sessionFactory);
+		//secondLevelCachingInAction(sessionFactory);
+		queryCache(sessionFactory);
 	}
 	
+	private static void queryCache(SessionFactory sessionFactory) {
+		// use it with care because there might not be same query frequently without dirty
+		// need to set both queries as cacheable
+		create14(sessionFactory);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Query query = session.createQuery("from UserDetails14 where userId = 1");
+		query.setCacheable(true); // make this query only cacheable
+		List<UserDetails14> userDetails = (List<UserDetails14>) query.list();
+		session.getTransaction().commit();
+		session.close();
+
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Query query2 = session.createQuery("from UserDetails14 where userId = 1");
+		query2.setCacheable(true); 
+		// set cacheable will hit database if there is no result already available
+		// if not mark it as cacheable, it will hit database without looking at cache
+		userDetails = (List<UserDetails14>) query2.list();
+		session.getTransaction().commit();
+		session.close();
+	}
+
 	private static void secondLevelCachingInAction(SessionFactory sessionFactory) {
 		// there will be one select even after there is a session close
 		// it's able to keep the cache across session using Ehcache
@@ -616,6 +643,18 @@ public class HibernateTest {
 		session.close();
 
 		System.out.println("User name pulled : " + userDetails.getUserName());
+	}
+	
+	private static void create14(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		for (int i = 0; i < 10; i++) {
+			UserDetails14 userDetails = new UserDetails14();
+			userDetails.setUserName("User " + (i + 1));
+			session.save(userDetails);
+		}
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	private static void create13(SessionFactory sessionFactory) {

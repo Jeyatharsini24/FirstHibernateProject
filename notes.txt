@@ -257,3 +257,6 @@ Hibernate keeps track of dirty *** better option
 3. NONSTRICT_READ_WRITE : some cases, not checked for dirty data
 4. TRANSACTIONAL : make sure that cache is on transactional basis
 ====================================================================================================================
+
+Why separate configuration for query cache: result by session.get is saved in different place than result by query
+(Second level caching differs from query cache)
