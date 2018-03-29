@@ -227,3 +227,6 @@ Hibernate data retrival:
 
 Criteria is like where clause
 
+Example : not considered null value and primary key value
+when it is needed to be excluded a property in Example, it can be done by
+	Example example2 = Example.create(exampleUser).excludeProperty("userName");

@@ -10,6 +10,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.jeya.dto.Address;
@@ -71,9 +74,165 @@ public class HibernateTest {
 		//namedQuery(sessionFactory);
 		//namedNativeQuery(sessionFactory);
 		//criteriaAPI(sessionFactory);
-		criteriaAPIOR(sessionFactory);
+		//criteriaAPIOR(sessionFactory);
+		criteriaAPIProjection(sessionFactory);
 	}
 	
+	private static void criteriaAPIProjection(SessionFactory sessionFactory) {
+		// eg: retrieve max id in a table by criteria API
+		create(sessionFactory);
+		//getAllInAColumnByProjection(sessionFactory);
+		//getMaxOfAColumnByProjection(sessionFactory);
+		//getCountOfAColumnByProjection(sessionFactory);
+		//orderResultByProjection(sessionFactory);
+		queryingByExample(sessionFactory);
+	}
+
+	private static void queryingByExample(SessionFactory sessionFactory) {
+		// when there is multiple properties needs to be checked against,
+		// create result as example object and querying
+		
+		//queryByExampleSimple(sessionFactory);
+		//queryByExampleExampleNotConsideringPrimaryKey(sessionFactory);
+		//queryByExampleExcludeProperty(sessionFactory);
+		queryByExampleLike(sessionFactory);
+	}
+
+	private static void queryByExampleLike(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		UserDetails11 exampleUser2 = new UserDetails11();
+		exampleUser2.setUserName("User 1%");
+		
+		Example example2 = Example.create(exampleUser2).enableLike();
+
+		Criteria criteria2 = session.createCriteria(UserDetails11.class).add(example2);
+
+		List<UserDetails11> userDetails = (List<UserDetails11>) criteria2.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", user name : " + u.getUserName());
+		}
+	}
+
+	private static void queryByExampleExcludeProperty(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		UserDetails11 exampleUser2 = new UserDetails11();
+		exampleUser2.setUserId(5);
+		
+		Example example2 = Example.create(exampleUser2).excludeProperty("userName"); // hibernate will ignore this property from example
+
+		Criteria criteria2 = session.createCriteria(UserDetails11.class).add(example2);
+
+		List<UserDetails11> userDetails = (List<UserDetails11>) criteria2.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", user name : " + u.getUserName());
+		}
+	}
+
+	private static void queryByExampleExampleNotConsideringPrimaryKey(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		UserDetails11 exampleUser2 = new UserDetails11();
+		exampleUser2.setUserId(5);
+		
+		Example example2 = Example.create(exampleUser2);
+
+		Criteria criteria2 = session.createCriteria(UserDetails11.class).add(example2);
+
+		List<UserDetails11> userDetails = (List<UserDetails11>) criteria2.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", user name : " + u.getUserName());
+		}
+	}
+
+	private static void queryByExampleSimple(SessionFactory sessionFactory) {
+		UserDetails11 exampleUser = new UserDetails11();
+		exampleUser.setUserId(5);
+		exampleUser.setUserName("User 5"); // optional
+		
+		Example example = Example.create(exampleUser);
+		
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Criteria criteria = session.createCriteria(UserDetails11.class).add(example);
+
+		List<UserDetails11> userDetails = (List<UserDetails11>) criteria.list();
+		session.getTransaction().commit();
+		session.close();
+		for (UserDetails11 u : userDetails) {
+			System.out.println("User id : " + u.getUserId() + ", user name : " + u.getUserName());
+		}
+	}
+
+	private static void orderResultByProjection(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Criteria criteria = session.createCriteria(UserDetails11.class).setProjection(Projections.property("userId"))
+				.addOrder(Order.desc("userId")); // will return integer list of Ids
+		//criteria = session.createCriteria(UserDetails11.class).addOrder(Order.desc("userId")); will return UserDetails list
+
+		List<Integer> userIds = (List<Integer>) criteria.list();
+		session.getTransaction().commit();
+		session.close();
+		for (Integer u : userIds) {
+			System.out.println("User Id : " + u);
+		}
+	}
+
+	private static void getCountOfAColumnByProjection(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Criteria criteria = session.createCriteria(UserDetails11.class).setProjection(Projections.count("userId"));
+
+		List<Long> count = (List<Long>) criteria.list();
+		session.getTransaction().commit();
+		session.close();
+		for (Long u : count) {
+			System.out.println("User count : " + u);
+		}
+	}
+
+	private static void getMaxOfAColumnByProjection(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Criteria criteria = session.createCriteria(UserDetails11.class).setProjection(Projections.max("userId"));
+
+		List<Integer>userIds = (List<Integer>) criteria.list();
+		session.getTransaction().commit();
+		session.close();
+		for (Integer u : userIds) {
+			System.out.println("User id : " + u);
+		}
+	}
+
+	private static void getAllInAColumnByProjection(SessionFactory sessionFactory) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Criteria criteria = session.createCriteria(UserDetails11.class).setProjection(Projections.property("userId"));
+
+		List<Integer> userIds = (List<Integer>) criteria.list();
+		session.getTransaction().commit();
+		session.close();
+		for (Integer id : userIds) {
+			System.out.println("User id : " + id);
+		}
+	}
+
 	private static void criteriaAPIOR(SessionFactory sessionFactory) {
 		create(sessionFactory);
 		Session session = sessionFactory.openSession();
